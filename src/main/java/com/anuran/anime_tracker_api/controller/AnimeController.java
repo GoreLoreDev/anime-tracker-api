@@ -1,7 +1,8 @@
 package com.anuran.anime_tracker_api.controller;
 
+import com.anuran.anime_tracker_api.dto.AnimeResponse;
 import com.anuran.anime_tracker_api.model.Anime;
-import com.anuran.anime_tracker_api.sevice.AnimeService;
+import com.anuran.anime_tracker_api.service.AnimeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +23,16 @@ public class AnimeController {
     //This is dependency injection.
 
     @GetMapping("/anime")
-    public List<Anime> getAllAnime() {
-        return animeService.getAllAnime();
+    public List<AnimeResponse> getAllAnime() {
+
+        List<Anime> animeList = animeService.getAllAnime();
+
+        return animeList.stream()
+                .map(anime -> new AnimeResponse(
+                        anime.getId(),
+                        anime.getTitle()
+                ))
+                .toList();
     }
 
 }
