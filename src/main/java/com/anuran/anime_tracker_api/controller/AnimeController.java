@@ -1,9 +1,12 @@
 package com.anuran.anime_tracker_api.controller;
 
 import com.anuran.anime_tracker_api.dto.AnimeResponse;
+import com.anuran.anime_tracker_api.dto.CreateAnimeRequest;
 import com.anuran.anime_tracker_api.model.Anime;
 import com.anuran.anime_tracker_api.service.AnimeService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,6 +36,20 @@ public class AnimeController {
                         anime.getTitle()
                 ))
                 .toList();
+    }
+
+
+    @PostMapping("/anime")
+    public AnimeResponse createAnime(
+            @RequestBody CreateAnimeRequest request) {
+
+
+        Anime anime=animeService.createAnime(request.getTitle());
+
+        return new AnimeResponse(
+                anime.getId(),
+                anime.getTitle()
+        );
     }
 
 }

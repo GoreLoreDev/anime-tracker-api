@@ -3,16 +3,34 @@ package com.anuran.anime_tracker_api.service;
 import com.anuran.anime_tracker_api.model.Anime;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class AnimeService {
 
+    private final List<Anime> animeList = new ArrayList<>();
+
+    private Long nextId= 4L;
+
+
+
+    public AnimeService(){
+
+                animeList.add(new Anime(1L, "Attack on Titan"));
+                animeList.add( new Anime(2L, "Death Note"));
+                animeList.add(new  Anime(3L, "Fullmetal Alchemist"));
+
+    }
     public List<Anime> getAllAnime() {
-        return List.of(
-                new Anime(1L, "Attack on Titan"),
-                new Anime(2L, "Death Note"),
-                new Anime(3L, "Fullmetal Alchemist")
-        );
+        return animeList;
+    }
+
+    public Anime createAnime(String title){
+        Anime anime=new Anime(nextId, title);
+        nextId++;
+        animeList.add(anime);
+
+        return anime;
     }
 }
