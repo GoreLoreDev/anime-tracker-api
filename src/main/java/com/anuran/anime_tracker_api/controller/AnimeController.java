@@ -4,10 +4,7 @@ import com.anuran.anime_tracker_api.dto.AnimeResponse;
 import com.anuran.anime_tracker_api.dto.CreateAnimeRequest;
 import com.anuran.anime_tracker_api.model.Anime;
 import com.anuran.anime_tracker_api.service.AnimeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,6 +47,15 @@ public class AnimeController {
                 anime.getId(),
                 anime.getTitle()
         );
+    }
+
+    @GetMapping("/anime/{id}")
+    public AnimeResponse getAnimeById(
+            @PathVariable Long id) {
+        Anime anime=animeService.getAnimeById(id);
+        AnimeResponse ar=new AnimeResponse(anime.getId(), anime.getTitle());
+
+        return ar;
     }
 
 }

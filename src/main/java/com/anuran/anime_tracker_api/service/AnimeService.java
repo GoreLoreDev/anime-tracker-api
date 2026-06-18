@@ -1,5 +1,6 @@
 package com.anuran.anime_tracker_api.service;
 
+import com.anuran.anime_tracker_api.exception.*;
 import com.anuran.anime_tracker_api.model.Anime;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,21 @@ public class AnimeService {
         animeList.add(anime);
 
         return anime;
+    }
+
+    public Anime getAnimeById(long id){
+        Anime foundAnime=animeList.stream()
+                .filter(anime -> anime.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (foundAnime!=null){
+            return foundAnime;
+        }
+        else {
+            throw new AnimeNotFoundException(
+                    "Anime with id " + id + " not found"
+            );
+        }
     }
 }
