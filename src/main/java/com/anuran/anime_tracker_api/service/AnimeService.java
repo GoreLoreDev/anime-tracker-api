@@ -50,4 +50,24 @@ public class AnimeService {
             );
         }
     }
+
+    public void deleteAnime(Long id){
+
+        System.out.println("DELETE CALLED FOR ID: " + id);
+
+        Anime foundAnime=animeList.stream()
+                .filter(anime -> anime.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (foundAnime!=null){
+            animeList.remove(foundAnime);
+        }
+        else {
+            throw new AnimeNotFoundException(
+                    "Anime with id " + id + " not found"
+            );
+        }
+
+    }
 }

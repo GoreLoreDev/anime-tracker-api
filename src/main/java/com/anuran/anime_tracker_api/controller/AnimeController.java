@@ -58,4 +58,10 @@ public class AnimeController {
         return ar;
     }
 
+    @DeleteMapping("/anime/{id}")
+    public void deleteAnime(
+            @PathVariable Long id) {
+        animeService.deleteAnime(id);
+    }
+
 }
