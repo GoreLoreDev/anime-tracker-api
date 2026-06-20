@@ -53,21 +53,18 @@ public class AnimeService {
 
     public void deleteAnime(Long id){
 
-        System.out.println("DELETE CALLED FOR ID: " + id);
+       Anime anime=getAnimeById(id);
 
-        Anime foundAnime=animeList.stream()
-                .filter(anime -> anime.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+       animeList.remove(anime);
 
-        if (foundAnime!=null){
-            animeList.remove(foundAnime);
-        }
-        else {
-            throw new AnimeNotFoundException(
-                    "Anime with id " + id + " not found"
-            );
-        }
 
+    }
+
+    public Anime updateAnime(Long id, String title){
+        Anime anime=getAnimeById(id);
+
+        anime.setTitle(title);
+
+        return anime;
     }
 }

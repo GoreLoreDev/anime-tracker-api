@@ -2,6 +2,7 @@ package com.anuran.anime_tracker_api.controller;
 
 import com.anuran.anime_tracker_api.dto.AnimeResponse;
 import com.anuran.anime_tracker_api.dto.CreateAnimeRequest;
+import com.anuran.anime_tracker_api.dto.UpdateAnimeRequest;
 import com.anuran.anime_tracker_api.model.Anime;
 import com.anuran.anime_tracker_api.service.AnimeService;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +63,15 @@ public class AnimeController {
     public void deleteAnime(
             @PathVariable Long id) {
         animeService.deleteAnime(id);
+    }
+
+    @PutMapping("/anime/{id}")
+    public AnimeResponse updateAnime(
+            @PathVariable Long id,
+            @RequestBody UpdateAnimeRequest request){
+        Anime anime=animeService.updateAnime(id, request.getTitle());
+        AnimeResponse ar=new AnimeResponse(anime.getId(), anime.getTitle());
+        return ar;
     }
 
 }
