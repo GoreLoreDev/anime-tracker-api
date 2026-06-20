@@ -1,7 +1,12 @@
 package com.anuran.anime_tracker_api.dto;
+
+import jakarta.validation.constraints.NotBlank;
+
 public class CreateAnimeRequest {
 
+    @NotBlank
     private String title;
+
 
     public CreateAnimeRequest() {
     }

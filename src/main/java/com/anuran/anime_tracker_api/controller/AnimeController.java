@@ -5,12 +5,20 @@ import com.anuran.anime_tracker_api.dto.CreateAnimeRequest;
 import com.anuran.anime_tracker_api.dto.UpdateAnimeRequest;
 import com.anuran.anime_tracker_api.model.Anime;
 import com.anuran.anime_tracker_api.service.AnimeService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
 @RestController
 public class AnimeController {
+
+    private AnimeResponse toResponse(Anime anime){
+
+        AnimeResponse ar=new AnimeResponse(anime.getId(), anime.getTitle());
+        return ar;
+    }
     private final AnimeService animeService;
 
     public AnimeController(AnimeService animeService) {
@@ -39,10 +47,9 @@ public class AnimeController {
 
     @PostMapping("/anime")
     public AnimeResponse createAnime(
-            @RequestBody CreateAnimeRequest request) {
+            @Valid @RequestBody CreateAnimeRequest request) {
 
-
-        Anime anime=animeService.createAnime(request.getTitle());
+        Anime anime = animeService.createAnime(request.getTitle());
 
         return new AnimeResponse(
                 anime.getId(),
@@ -54,9 +61,8 @@ public class AnimeController {
     public AnimeResponse getAnimeById(
             @PathVariable Long id) {
         Anime anime=animeService.getAnimeById(id);
-        AnimeResponse ar=new AnimeResponse(anime.getId(), anime.getTitle());
 
-        return ar;
+        return toResponse(anime);
     }
 
     @DeleteMapping("/anime/{id}")
@@ -70,8 +76,7 @@ public class AnimeController {
             @PathVariable Long id,
             @RequestBody UpdateAnimeRequest request){
         Anime anime=animeService.updateAnime(id, request.getTitle());
-        AnimeResponse ar=new AnimeResponse(anime.getId(), anime.getTitle());
-        return ar;
+        return toResponse(anime);
     }
 
 }
