@@ -2,11 +2,9 @@
 
 package com.anuran.anime_tracker_api.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.anuran.anime_tracker_api.model.AnimeStatus;
 
 @Entity
 public class Anime {
@@ -14,11 +12,13 @@ public class Anime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-
+    @Enumerated(EnumType.STRING)
+    private AnimeStatus status;
 
     public Anime(Long id, String title) {
         this.id = id;
         this.title = title;
+        this.status=AnimeStatus.PLAN_TO_WATCH;
     }
 
 
@@ -39,6 +39,14 @@ public class Anime {
     // if it needs to do something likeAnime anime = new Anime(); then it needs this no arg constructor
     public Anime() {
 
+    }
+
+    public AnimeStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AnimeStatus status) {
+        this.status = status;
     }
 }
 

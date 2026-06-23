@@ -5,13 +5,18 @@
 
 package com.anuran.anime_tracker_api.dto;
 
+import com.anuran.anime_tracker_api.model.AnimeStatus;
+
 public class AnimeResponse {
     private long id;
     private String title;
 
-    public AnimeResponse(Long id, String title) {
+    private AnimeStatus status;
+
+    public AnimeResponse(Long id, String title, AnimeStatus status) {
         this.id = id;
         this.title = title;
+        this.status=status;
     }
 
 
@@ -21,5 +26,9 @@ public class AnimeResponse {
 
     public String getTitle() {
         return title;
+    }
+
+    public AnimeStatus getStatus() {
+        return status;
     }
 }
