@@ -3,6 +3,7 @@ package com.anuran.anime_tracker_api.controller;
 import com.anuran.anime_tracker_api.dto.AnimeResponse;
 import com.anuran.anime_tracker_api.dto.CreateAnimeRequest;
 import com.anuran.anime_tracker_api.dto.UpdateAnimeRequest;
+import com.anuran.anime_tracker_api.dto.UpdateAnimeStatusRequest;
 import com.anuran.anime_tracker_api.model.Anime;
 import com.anuran.anime_tracker_api.service.AnimeService;
 import jakarta.validation.Valid;
@@ -10,13 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 public class AnimeController {
 
     private AnimeResponse toResponse(Anime anime){
 
-        AnimeResponse ar=new AnimeResponse(anime.getId(), anime.getTitle());
+        AnimeResponse ar=new AnimeResponse(anime.getId(), anime.getTitle(), anime.getStatus());
         return ar;
     }
     private final AnimeService animeService;
@@ -39,7 +41,8 @@ public class AnimeController {
         return animeList.stream()
                 .map(anime -> new AnimeResponse(
                         anime.getId(),
-                        anime.getTitle()
+                        anime.getTitle(),
+                        anime.getStatus()
                 ))
                 .toList();
     }
@@ -53,7 +56,8 @@ public class AnimeController {
 
         return new AnimeResponse(
                 anime.getId(),
-                anime.getTitle()
+                anime.getTitle(),
+                anime.getStatus()
         );
     }
 
@@ -77,6 +81,26 @@ public class AnimeController {
             @RequestBody UpdateAnimeRequest request){
         Anime anime=animeService.updateAnime(id, request.getTitle());
         return toResponse(anime);
+    }
+    @PutMapping("/anime/{id}/status")
+    public AnimeResponse updateAnimeStatus(
+            @PathVariable Long id,
+            @RequestBody UpdateAnimeStatusRequest request) {
+
+        Anime anime =
+                animeService.updateAnimeStatus(
+                        id,
+                        request.getStatus()
+                );
+
+        return toResponse(anime);
+    }
+
+    @GetMapping("/anime/search")
+    public List<AnimeResponse> searchAnime(
+            @RequestParam String title) {
+        List <Anime> animeList= animeService.searchAnimeByTitle(title);
+        return animeList.stream().map(this::toResponse).toList();
     }
 
 }

@@ -2,6 +2,7 @@ package com.anuran.anime_tracker_api.service;
 
 import com.anuran.anime_tracker_api.exception.*;
 import com.anuran.anime_tracker_api.model.Anime;
+import com.anuran.anime_tracker_api.model.AnimeStatus;
 import com.anuran.anime_tracker_api.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
 
@@ -52,9 +53,20 @@ public class AnimeService {
 
         return animeRepository.save(anime);
     }
+    public Anime updateAnimeStatus(Long id,
+                                   AnimeStatus status) {
 
+        Anime anime = getAnimeById(id);
 
+        anime.setStatus(status);
 
+        return animeRepository.save(anime);
+    }
+
+    public List<Anime> searchAnimeByTitle(String title) {
+        return animeRepository
+                .findByTitleContainingIgnoreCase(title);
+    }
 
 
 
