@@ -5,6 +5,8 @@ import com.anuran.anime_tracker_api.model.Anime;
 import com.anuran.anime_tracker_api.model.AnimeStatus;
 import com.anuran.anime_tracker_api.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 
 import java.util.List;
@@ -68,6 +70,17 @@ public class AnimeService {
                 .findByTitleContainingIgnoreCase(title);
     }
 
+    public List<Anime> getAnimePage(
+            int page,
+            int size) {
+        Page<Anime> animePage =
+                animeRepository.findAll(
+                        PageRequest.of(page, size)
+                );
+
+        return animePage.getContent();
+
+    }
 
 
 

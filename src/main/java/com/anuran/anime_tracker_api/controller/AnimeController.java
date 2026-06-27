@@ -102,5 +102,19 @@ public class AnimeController {
         List <Anime> animeList= animeService.searchAnimeByTitle(title);
         return animeList.stream().map(this::toResponse).toList();
     }
+    @GetMapping("/anime/page")
+    public List<AnimeResponse> getAnimePage(
+            @RequestParam int page,
+            @RequestParam int size) {
 
+        List<Anime> animeList =
+                animeService.getAnimePage(
+                        page,
+                        size
+                );
+
+        return animeList.stream()
+                .map(this::toResponse)
+                .toList();
+    }
 }
