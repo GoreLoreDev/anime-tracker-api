@@ -7,6 +7,7 @@ import com.anuran.anime_tracker_api.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 
 import java.util.List;
@@ -80,6 +81,13 @@ public class AnimeService {
 
         return animePage.getContent();
 
+    }
+    public List<Anime> getAnimeSorted(
+            String sortBy) {
+
+        return animeRepository.findAll(
+                Sort.by(sortBy)
+        );
     }
 
 

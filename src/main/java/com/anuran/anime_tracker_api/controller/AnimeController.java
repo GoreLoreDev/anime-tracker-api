@@ -5,6 +5,7 @@ import com.anuran.anime_tracker_api.dto.CreateAnimeRequest;
 import com.anuran.anime_tracker_api.dto.UpdateAnimeRequest;
 import com.anuran.anime_tracker_api.dto.UpdateAnimeStatusRequest;
 import com.anuran.anime_tracker_api.model.Anime;
+import com.anuran.anime_tracker_api.model.AnimeSortField;
 import com.anuran.anime_tracker_api.service.AnimeService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -117,4 +118,16 @@ public class AnimeController {
                 .map(this::toResponse)
                 .toList();
     }
+
+        @GetMapping("/anime/sorted")
+        public List<AnimeResponse> getAnimeSorted(
+                @RequestParam AnimeSortField sortBy) {
+
+            List<Anime> animeList =
+                    animeService.getAnimeSorted(sortBy.getFieldName());
+
+            return animeList.stream()
+                    .map(this::toResponse)
+                    .toList();
+        }
 }
